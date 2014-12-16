@@ -10,5 +10,3 @@ This way I don't have to dig into dependency hell when I set up a VM or upgrade 
 You need to have forked Bedrock first on Github since it sets it up based on your fork.
 
 WFM, it may work for you too ;)
-
-This Script work with 14.04 Ubuntu Version 

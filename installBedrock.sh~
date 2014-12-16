@@ -23,7 +23,7 @@ then
 fi
 
 echo "git@github.com:${repo}/bedrock.git"
-git clone --recursive https://github.com/${repo}/bedrock
+git clone --recursive https://github.com/$%7Brepo%7D/bedrock
 #git clone --recursive git@github.com:${repo}/bedrock.git
 
 cd ./bedrock
