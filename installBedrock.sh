@@ -12,6 +12,10 @@ echo "If you are in a Virtual Machine, don't forget to add your ssh key on it"
 echo "Please provide your github user name below: "
 read repo
 
+echo "Do you use GitHub via HTTPS? (y/n)"
+read -n 1 https
+echo ""
+
 echo "Do you need to install subversion git nodejs npm python-virtualenv python-dev (sudo password needed)? (y/n)"
 read -n 1 globaldependencies
 echo ""
@@ -19,6 +23,7 @@ if [ $globaldependencies == 'y' ]
 then
     echo "Sudo mode, install Node.js, Subversion, Git, npm, virtualenv. (if they were not already installed)"
     sudo apt-get update
+<<<<<<< HEAD
 #    sudo apt-get install -y subversion git nodejs npm python-virtualenv python-dev libxml2-dev libxslt1-dev node-less
 fi
 
@@ -31,6 +36,30 @@ cd ./bedrock
 echo "git://github.com/mozilla/bedrock.git added as upstream remote "
 git remote add upstream https://github.com/mozilla/bedrock.git
 #git remote add upstream git://github.com/mozilla/bedrock.git
+=======
+    sudo apt-get install -y subversion git nodejs python-virtualenv python-dev libxml2-dev libxslt1-dev node-less libmysqlclient-dev
+fi
+
+if [ $https == 'y' ]
+then
+    echo "https://github.com/${repo}/bedrock.git"
+    git clone --recursive https://github.com/${repo}/bedrock.git
+else
+    echo "git@github.com:${repo}/bedrock.git"
+    git clone --recursive git@github.com:${repo}/bedrock.git
+fi
+
+cd ./bedrock
+
+if [ $https == 'y' ]
+then
+    echo "https://github.com/mozilla/bedrock.git added as upstream remote"
+    git remote add upstream https://github.com/mozilla/bedrock.git
+else
+    echo "git://github.com/mozilla/bedrock.git added as upstream remote "
+    git remote add upstream git://github.com/mozilla/bedrock.git
+fi
+>>>>>>> 5172c36a4386723d74552f4ced202d4120cd7a7b
 
 echo "Create a virtual environement in the folder venv"
 virtualenv venv                                         # create a virtual env in the folder `venv`
@@ -59,14 +88,14 @@ echo "Sync database schemas"
 ./bin/sync_all
 
 
-sudo pip uninstall -y django    # included as submodule, we do not want the one installed by django-nose requirements
-sudo pip install ipython        # highly recommended, but not required so not in requirements/dev.txt
+./venv/bin/pip uninstall -y django    # included as submodule, we do not want the one installed by django-nose requirements
+./venv/bin/pip install ipython        # highly recommended, but not required so not in requirements/dev.txt
 
 echo "npm install: less, grunt-cli, jshint"
-npm install -g less
-npm install -g grunt-cli
-npm install -g jshint
-npm install
+sudo npm install -g less
+sudo npm install -g grunt-cli
+sudo npm install -g jshint
+sudo npm install
 #echo -e "\nLESS_BIN = '/usr/bin/lessc'" >> bedrock/settings/local.py
 
 echo "Check out all the translations which live on svn in the localizers repositories"
@@ -75,6 +104,3 @@ echo "Check out all the translations which live on svn in the localizers reposit
 mkdir locale
 cd locale
 svn co https://svn.mozilla.org/projects/mozilla.com/trunk/locales/ .
-
-echo "start mysql"
-mysql-ctl start

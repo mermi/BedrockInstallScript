@@ -11,4 +11,4 @@ You need to have forked Bedrock first on Github since it sets it up based on you
 
 WFM, it may work for you too ;)
 
-This Script work with 14.04 Ubuntu Version 
+This Script works with 14.04 Ubuntu Version 
